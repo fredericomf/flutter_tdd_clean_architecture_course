@@ -27,12 +27,16 @@ void main(){
       // the Right "side" of Either containing a test NumberTrivia object.
       when(mockNumberTriviaRepository.getConcreteNumberTrivia(any))
           .thenAnswer((_) async => Right(tNumberTrivia));
+
       // The "act" phase of the test. Call the not-yet-existent method.
-      final result = await usecase.execute(number: tNumber);
+      final result = await usecase(Params(number: tNumber));
+
       // UseCase should simply return whatever was returned from the Repository
       expect(result, Right(tNumberTrivia));
+
       // Verify that the method has been called on the Repository
       verify(mockNumberTriviaRepository.getConcreteNumberTrivia(tNumber));
+
       // Only the above method should be called and nothing more.
       verifyNoMoreInteractions(mockNumberTriviaRepository);
     },
